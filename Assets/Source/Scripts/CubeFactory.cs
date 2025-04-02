@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Source.Scripts
@@ -7,7 +8,7 @@ namespace Source.Scripts
         private const float SpawnRateFactor = 0.5f;
         private const float ExplosionForceRateFactor = 1.3f;
         private const float ExplosionRadiusRateFactor = 1.1f;
-        
+
         [SerializeField, Range(0, 1)] private float _scaleRate = 0.5f;
         [SerializeField] private Cube _cubePrefab;
         [SerializeField] private Painter _painter;
@@ -18,8 +19,11 @@ namespace Source.Scripts
 
             ChangeScale(cube, parentCube.transform);
 
-            _painter.Repaint(cube);
-
+            if (cube.TryGetComponent<Renderer>(out Renderer cubeRenderer))
+                _painter.Repaint(cubeRenderer);
+            else
+                throw new NullReferenceException("Cube is not renderer");
+            
             cube.ChangeParameters(parentCube.SpawnRate * SpawnRateFactor,
                 parentCube.ExplosionForce * ExplosionForceRateFactor,
                 parentCube.ExplosionRadius * ExplosionRadiusRateFactor);

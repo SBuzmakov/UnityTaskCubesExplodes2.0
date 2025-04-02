@@ -48,9 +48,6 @@ namespace Source.Scripts
             Cube cube = _cubeFactory.Create(parentCube);
 
             cube.Destroyed += OnCubeDestroy;
-
-            if (cube.GetComponent<Rigidbody>() == null)
-                throw new NullReferenceException("Component Rigidbody is missing");
         }
 
         private void OnCubeDestroy(Cube cube)
